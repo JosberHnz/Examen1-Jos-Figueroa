@@ -1,25 +1,29 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { View, Text } from "react-native";
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Diario de Tareas</Text>
-    </View>
-  );
+
+export default function Index() {
+    const router = useRouter();
+    const { user } = useAuth();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, [])
+
+    useEffect(() => {
+        if (isMounted) {
+            router.replace(user ? '/(tabs)/login' : '/(tabs)/explore');
+        }
+    }, [isMounted])
+    return (
+        <View>
+            <Text>Usuario: {user ? user.email : 'No autenticado'}</Text>
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-  },
-  text: {
-    fontSize: 20,
-    color: '#333',
-  },
-});
 
 
 
