@@ -1,46 +1,72 @@
-import { createContext, isValidElement, useContext, useState } from "react"
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type User = {email: string} | null;
-
-const AuthContext = createContext<{
-    user: User,
-    isAllowed: boolean;
-    login: (email: string) => void;
-    logout: () => void;
-} | null>(null);
-
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error ("useAuth debe usarse dentro de AuthProvider");
-    return context;
+// Estructura del contexto
+interface AuthContextType {
+  user: { email: string } | null;
+  login: (email: string) => void;
+  logout: () => void;
 }
 
-export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-    const [user, setUser] = useState<User>(null);
-    const [isAllowed, setIsAllowed] = useState<boolean>(false);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-    const login =  (email: string) => {
-        const isValidEmail = email.endsWith('.edu');
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<{ email: string } | null>(null);
 
-        if (isValidEmail){
-            setUser({email});
-            setIsAllowed(true);
-        }else{
-            setUser(null);
-            setIsAllowed(false);
-            alert("Solo correos .edu pueden ingresar")
-        }
-    };
+  useEffect(() => {
+    const loadUser = async () => {
+      const savedUser = await AsyncStorage.getItem("user");
 
-    const logout = () => {
+      if (savedUser && savedUser.trim().endsWith("@gmail.com")) {
+        setUser({ email: savedUser.trim() });
+      } else {
         setUser(null);
-        setIsAllowed(false);
-    }
+      }
+    };
+    loadUser();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{user, isAllowed, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    )
-   
+
+  const login = async (email: string) => {
+    const trimmedEmail = email.trim();
+
+    if (trimmedEmail.endsWith("@gmail.com")) {
+      setUser({ email: trimmedEmail });
+      await AsyncStorage.setItem("user", trimmedEmail);
+    } else {
+      alert("Debes ingresar un correo de dominio @gmail.com");
+      setUser(null);
+    }
+  };
+
+  // Función para cerrar sesión
+  const logout = async () => {
+    setUser(null);
+    await AsyncStorage.removeItem("user");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
+
+// Hook para usar el contexto de autenticación
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth debe usarse dentro de un AuthProvider");
+  }
+  return context;
+}
+
+
+
+
+
+
+
+  
+
+

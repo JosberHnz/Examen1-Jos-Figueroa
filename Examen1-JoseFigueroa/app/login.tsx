@@ -1,47 +1,50 @@
-import { useAuth } from "./context/AuthContext";
-import { View, Text, TextInput, Button, Alert } from "react-native";
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import React, { useState } from 'react';
+import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import { useAuth } from './contexts/AuthContext';
+import { useRouter } from 'expo-router';
 
-export default function LoginPage() {
-  const { login } = useAuth();
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const { login, user } = useAuth();
   const router = useRouter();
-  const [email, setEmail] = useState("");
 
-  const handleLogin = () => {
-    if (!email.includes("@")) {
-      Alert.alert("Error", "Por favor, introduce un correo válido.");
-      return;
+  const handleLogin = async () => {
+    if (email.trim().endsWith("@gmail.com")) {
+      await login(email);
+      router.push("/(tabs)/home"); // Redirige al home si el login es exitoso
+    } else {
+      alert("Debes ingresar un correo de dominio @gmail.com");
     }
-    
-    login(email); // Guardar sesión en Context API
-    Alert.alert("Inicio de sesión exitoso", `Bienvenido, ${email}`);
-    router.replace("/(tabs)/home"); // Redirigir al home
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>Iniciar Sesión</Text>
+    <View style={styles.container}>
       <TextInput
+        style={styles.input}
         placeholder="Correo electrónico"
         value={email}
         onChangeText={setEmail}
-        style={{
-          width: "100%",
-          height: 40,
-          borderColor: "gray",
-          borderWidth: 1,
-          marginBottom: 20,
-          paddingHorizontal: 10,
-          borderRadius: 5,
-        }}
-        keyboardType="email-address"
-        autoCapitalize="none"
       />
       <Button title="Iniciar sesión" onPress={handleLogin} />
+      {user && <Text>Bienvenido {user.email}</Text>}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10,
+  },
+});
 
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
-import { useTasks } from "../context/TaskContext";
+import { useTasks } from "../contexts/TaskContext";
 
 export default function HomeScreen() {
   const { tasks } = useTasks();

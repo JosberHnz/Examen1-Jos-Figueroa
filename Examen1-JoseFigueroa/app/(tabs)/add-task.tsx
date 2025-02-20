@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
-import { useTasks } from "../context/TaskContext";
+import { useTasks } from "../contexts/TaskContext";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../context/types"; // Importa los tipos
+import { RootStackParamList } from "../contexts/types";
 
 export default function AddTaskScreen() {
   const [taskTitle, setTaskTitle] = useState("");
@@ -14,7 +14,7 @@ export default function AddTaskScreen() {
     if (taskTitle.trim() === "") return;
     addTask(taskTitle);
     setTaskTitle("");
-    navigation.navigate("Home"); // Ahora TypeScript reconocerá esta ruta correctamente
+    navigation.navigate("Home");
   };
 
   return (

@@ -14,8 +14,12 @@ export default function Index() {
 
     useEffect(() => {
         if (isMounted) {
-           
-            router.replace(user ? '/(tabs)/home' : '/(tabs)/login');
+
+            if (user && user.email && user.email.endsWith('@gmail.com')) {
+                router.replace('/(tabs)/home');
+            } else {
+                router.replace('/(tabs)/login');
+            }
         }
     }, [isMounted, user]);
 
@@ -25,6 +29,9 @@ export default function Index() {
         </View>
     );
 }
+
+
+
 
 
 

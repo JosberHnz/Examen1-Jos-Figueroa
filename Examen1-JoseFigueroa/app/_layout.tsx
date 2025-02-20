@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
-import { AuthProvider } from "./context/AuthContext";
-import { TasksProvider } from "./context/TaskContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import { TasksProvider } from "./contexts/TaskContext";
 
 export default function Layout() {
   return (
