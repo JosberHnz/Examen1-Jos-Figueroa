@@ -19,23 +19,21 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     padding: 15,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
+    marginVertical: 10,
+    borderRadius: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
   },
   description: {
     fontSize: 14,
-    color: "#666",
+    color: "#555",
     marginTop: 5,
   },
 });
