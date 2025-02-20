@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-interface TaskProps {
+interface TaskCardProps {
   title: string;
   description: string;
 }
 
-const TaskCard = ({ title, description }: TaskProps) => {
+const TaskCard: React.FC<TaskCardProps> = ({ title, description }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
@@ -16,17 +17,28 @@ const TaskCard = ({ title, description }: TaskProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 15,
     marginVertical: 8,
+    marginHorizontal: 16,
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  title: { fontSize: 16, fontWeight: 'bold' },
-  description: { fontSize: 14, color: 'gray' },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  description: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 5,
+  },
 });
 
 export default TaskCard;
+
