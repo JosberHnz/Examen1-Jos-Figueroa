@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 
-
 export default function Index() {
     const router = useRouter();
     const { user } = useAuth();
@@ -11,19 +10,22 @@ export default function Index() {
 
     useEffect(() => {
         setIsMounted(true);
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (isMounted) {
-            router.replace(user ? '/(tabs)/login' : '/(tabs)/explore');
+           
+            router.replace(user ? '/(tabs)/home' : '/(tabs)/login');
         }
-    }, [isMounted])
+    }, [isMounted, user]);
+
     return (
         <View>
             <Text>Usuario: {user ? user.email : 'No autenticado'}</Text>
         </View>
     );
 }
+
 
 
 

@@ -12,7 +12,7 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/profilepic.png")}
+        source={require("../../assets/images/profilepic.png")}
         style={styles.avatar}
       />
       <Text style={styles.title}>Bienvenido</Text>
@@ -27,7 +27,7 @@ export default function LoginScreen() {
         autoCapitalize="none"
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => { login(email); router.replace("/(tabs)/explore"); }}>
+      <TouchableOpacity style={styles.button} onPress={() => { login(email); router.replace("/(tabs)/home"); }}>
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
 
