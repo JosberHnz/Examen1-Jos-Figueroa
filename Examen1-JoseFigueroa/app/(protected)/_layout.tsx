@@ -1,15 +1,18 @@
-import { useAuth } from "../contexts/AuthContext";
-import { Redirect, Stack } from "expo-router";
+// app/(protected)/_layout.tsx
+import React from 'react';
+import { Stack } from 'expo-router';
 
-export default function AuthLayout() {
-  const { user } = useAuth();
+const ProtectedLayout = () => {
+  return (
+    <Stack>
+      <Stack.Screen name="home" />
+      <Stack.Screen name="add-task" />
+    </Stack>
+  );
+};
 
-  if (user === undefined) {
-    return null;
-  }
+export default ProtectedLayout;
 
-  return user ? <Redirect href="/(tabs)/home" /> : <Stack />;
-}
 
 
 
